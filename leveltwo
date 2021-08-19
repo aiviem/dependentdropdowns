@@ -1,0 +1,26 @@
+function onEdit(){
+
+var ss = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+var datass = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Lists");
+
+var ActiveCell = ss.getActiveCell();
+
+if(ActiveCell.getColumn() == 1 && ActiveCell.getRow() > 1){
+
+  ActiveCell.offset(0, 1).clearContent().clearDataValidations();
+
+    var makes = datass.getRange(1, 1, 1, datass.getLastColumn()).getValues();
+
+    var makeIndex = makes[0].indexOf(ActiveCell.getValue()) + 1;
+
+    if(makeIndex != 0){
+
+      var validationrRange = datass.getRange(2, makeIndex, datass.getLastRow());
+      var validationrule = SpreadsheetApp.newDataValidation().requireValueInRange(validationrRange).build();
+  ActiveCell.offset(0, 1).setDataValidation(validationrule);
+
+    }
+
+  }
+
+}
